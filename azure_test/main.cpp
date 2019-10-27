@@ -9,16 +9,19 @@ int main()
 	bool tag = true;
 	int count = 0;
 
+	// store 30 frame
 	while (tag)
 	{
 		rs = kinect.getPointCloud();
 		mng.setData(rs);
-		count = mng.getDataCount();
+		rs.reset();
 
+		count = mng.getDataCount();
 		if (count > 29)
 			tag = false;
 	}
 
+	// save frame data set
 	mng.saveDataSet();
 	
 	return 0;

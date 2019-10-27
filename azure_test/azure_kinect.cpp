@@ -53,15 +53,17 @@ void azure_kinect::Finalize_Device()
 k4a::image azure_kinect::getPointCloud()
 {
 	k4a::capture capture;
-
+	// data capture from device
 	m_Device.get_capture(&capture);
-
+	// get depthimage from current frame
 	k4a::image depthImage = capture.get_depth_image();
-
+	// get camera calibration
 	k4a::transformation transform(m_Calibration);
-
+	// transform 2d depth to 3d point cloud
 	k4a::image rt = transform.depth_image_to_point_cloud(depthImage, k4a_calibration_type_t::K4A_CALIBRATION_TYPE_DEPTH);
-	
+	// release frame capture
+	capture.reset();
+	// retrun point cloud image
 	return rt;
 }
 
@@ -70,5 +72,4 @@ void azure_kinect::deviceCalibration()
 {
 	// mode is set in initialize function
 	m_Calibration =	m_Device.get_calibration(K4A_DEPTH_MODE_WFOV_UNBINNED, K4A_COLOR_RESOLUTION_1080P);
-
 }

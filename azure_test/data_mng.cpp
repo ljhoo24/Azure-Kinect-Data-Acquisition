@@ -26,23 +26,33 @@ int data_mng::getDataCount()
 
 void data_mng::saveDataSet()
 {
+	string str("test");
 	ofstream fst;
 
-	fst.open("test.obj");
-
-	k4a::image rs;
-	rs = m_DataSet[0];
-
-	uint8_t* data = rs.get_buffer();
-	int height = rs.get_height_pixels(), width = rs.get_width_pixels();
-
-	for (register int h = 0; h < height; h++)
+	for (register int i = 0; i < m_DataSet.size(); i++)
 	{
-		for (register int w = 0; w < width; w++)
-		{
-			fst << data[h * width + w] << endl;
-		}
-	}
+		str.append(to_string(i + 1));
+		str.append(".obj");
+		
+		fst.open(str);
 
-	fst.close();
+		k4a::image rs;
+		rs = m_DataSet[i];
+
+		int16_t* data = (int16_t*)rs.get_buffer();
+		int height = rs.get_height_pixels(), width = rs.get_width_pixels();
+
+		for (register int j = 0; j < height * width; j++)
+		{
+			int16_t x, y, z;
+
+			x = data[3 * j + 0];
+			y = data[3 * j + 1];
+			z = data[3 * j + 2];
+
+			fst << "v " << x << " " << y << " " << z << endl;
+		}
+
+		fst.close();
+	}
 }
