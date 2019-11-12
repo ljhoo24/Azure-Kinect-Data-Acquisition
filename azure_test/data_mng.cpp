@@ -26,11 +26,11 @@ int data_mng::getDataCount()
 
 void data_mng::saveDataSet()
 {
-	string str("test");
 	ofstream fst;
 
 	for (register int i = 0; i < m_DataSet.size(); i++)
 	{
+		string str("test");
 		str.append(to_string(i + 1));
 		str.append(".obj");
 		
